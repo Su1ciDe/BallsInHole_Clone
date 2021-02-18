@@ -1,3 +1,7 @@
 ﻿Temp/UnityLockfile
 Temp
 Library
+obj
+*.csproj
+*.sln
+.vs
