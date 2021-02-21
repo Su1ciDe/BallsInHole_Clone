@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Hole : MonoBehaviour
 {
@@ -9,14 +10,20 @@ public class Hole : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Ball"))
-        {
-            Debug.Log("ball");
-            Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Ground"), true);
+        if (other.CompareTag(TagEnums.Ball.ToString()))
+            StartCoroutine(NestTheBall(other.GetComponent<Rigidbody>()));
+    }
 
-            Rigidbody ball_rb = other.GetComponent<Rigidbody>();
-            ball_rb.isKinematic = false;
-            ball_rb.useGravity = true;
-        }
+    private IEnumerator NestTheBall(Rigidbody ball_rb)
+    {
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Ground"), true);
+
+        ball_rb.isKinematic = false;
+        ball_rb.useGravity = true;
+
+        yield return new WaitForSeconds(1f);
+
+        ball_rb.useGravity = false;
+        ball_rb.isKinematic = true;
     }
 }

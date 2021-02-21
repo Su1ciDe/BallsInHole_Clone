@@ -7,6 +7,8 @@ TagManager:
   - Wall
   - Ball
   - Hole
+  - Obstacle
+  - Destroyable
   layers:
   - Default
   - TransparentFX
@@ -22,7 +24,7 @@ TagManager:
   - Ball
   - Wall
   - Ground
-  - 
+  - Destroyable
   - 
   - 
   - 

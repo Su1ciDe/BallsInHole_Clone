@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
@@ -12,16 +11,29 @@ public class ControllableObjects : SingletonBehaviour<ControllableObjects>
     {
         foreach (Transform obj in controllableObjects)
         {
-            if (Physics.Raycast(new Vector3(obj.position.x, .5f, obj.position.z), dir, out RaycastHit hit, 100f, layerMask))
+            Rigidbody rb = obj.GetComponent<Rigidbody>();
+
+            if (Physics.Raycast(new Vector3(rb.position.x, .5f, rb.position.z), dir, out RaycastHit hit, 100f, layerMask))
             {
-                if (hit.collider.CompareTag("Wall"))
+                GameManager.Instance.CanPlay = false;
+
+                float dist = 0;
+                if (dir == Vector3.right || dir == Vector3.left)
+                    dist = (hit.collider.transform.position - rb.position).x * dir.x;
+                if (dir == Vector3.forward || dir == Vector3.back)
+                    dist = (hit.collider.transform.position - rb.position).z * dir.z;
+
+                rb.GetComponent<Ball>()?.Roll(dir, dist); // for ball's rotation
+
+                rb.DOMove(new Vector3(hit.collider.transform.position.x, rb.position.y, hit.collider.transform.position.z) + dir * (-1), dist * .04f).SetEase(Ease.InCubic).OnComplete(() =>
                 {
-                    GameManager.Instance.CanPlay = false;
-                    obj.DOMove(new Vector3(hit.collider.transform.position.x, obj.position.y, hit.collider.transform.position.z) + dir * (-1), 1).OnComplete(() =>
+                    GameManager.Instance.CanPlay = true;
+
+                    if (rb.CompareTag(TagEnums.Ball.ToString()) && hit.collider.CompareTag(TagEnums.Destroyable.ToString()))
                     {
-                        GameManager.Instance.CanPlay = true;
-                    });
-                }
+                        Destroy(hit.collider.gameObject);
+                    }
+                });
             }
         }
     }
