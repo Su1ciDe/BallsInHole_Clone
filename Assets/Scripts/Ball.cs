@@ -5,6 +5,11 @@ public class Ball : MonoBehaviour
 {
     Rigidbody rb;
 
+    private void Awake()
+    {
+        transform.parent = ControllableObjects.Instance.transform;
+    }
+
     void Start()
     {
         ControllableObjects.controllableObjects.Add(transform);

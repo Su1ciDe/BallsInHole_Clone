@@ -8,5 +8,6 @@
     Wall,
     Ground,
     Obstacle,
-    Destroyable
+    Destroyable,
+    Portal
 }

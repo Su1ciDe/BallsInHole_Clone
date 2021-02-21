@@ -9,6 +9,7 @@ TagManager:
   - Hole
   - Obstacle
   - Destroyable
+  - Portal
   layers:
   - Default
   - TransparentFX

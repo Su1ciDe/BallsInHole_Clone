@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class Hole : MonoBehaviour
 {
+    private void Awake()
+    {
+        transform.parent = ControllableObjects.Instance.transform;
+    }
+
     void Start()
     {
         ControllableObjects.controllableObjects.Add(transform);

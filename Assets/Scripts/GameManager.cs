@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : SingletonBehaviour<GameManager>
@@ -7,6 +8,8 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     public int BallCountInLevel;
     public int BallCollected;
+
+    public static List<Portal> Portals = new List<Portal>();
 
     protected override void Awake()
     {
