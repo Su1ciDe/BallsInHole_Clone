@@ -7,7 +7,7 @@ public class ControllableObjects : SingletonBehaviour<ControllableObjects>
     public static List<Transform> controllableObjects = new List<Transform>();
     public LayerMask layerMask;
 
-    public Vector3 previousDir;
+    [HideInInspector] public Vector3 previousDir;
 
     public void Move(Vector3 dir)
     {

@@ -9,5 +9,6 @@
     Ground,
     Obstacle,
     Destroyable,
-    Portal
+    Portal,
+    Coin
 }

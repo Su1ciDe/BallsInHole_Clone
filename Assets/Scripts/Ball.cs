@@ -24,8 +24,8 @@ public class Ball : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag(TagEnums.Obstacle.ToString()))
+    {   // killing traps
+        if (other.CompareTag(TagEnums.Obstacle.ToString())) 
         {
             other.tag = TagEnums.Untagged.ToString();
 
@@ -38,6 +38,15 @@ public class Ball : MonoBehaviour
             Destroy(gameObject);
 
             GameManager.Instance.CheckIfLevelFailed();
+        }
+        // collectable
+        if (other.CompareTag(TagEnums.Coin.ToString())) 
+        {
+            other.tag = TagEnums.Untagged.ToString();
+
+            GameManager.Instance.AddScore(other.GetComponent<Coin>().Value);
+
+            Destroy(other.gameObject);
         }
     }
 }
