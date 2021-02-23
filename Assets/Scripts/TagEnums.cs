@@ -1,9 +1,7 @@
 ﻿public enum TagEnums
 {
     Untagged,
-    GroundHole,
-    ShaderHole,
-    ShaderHoleMask,
+    Hole,
     Ball,
     Wall,
     Ground,

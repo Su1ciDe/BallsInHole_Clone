@@ -20,7 +20,7 @@ public class Ball : MonoBehaviour
 
     public void Roll(Vector3 dir, float dist)
     {
-        rb.DORotate(360 * new Vector3(dir.z, 0, dir.x) * (dist / 4), dist * .04f, RotateMode.FastBeyond360).SetEase(Ease.InCubic);
+        rb.DORotate(360 * new Vector3(dir.z, 0, -dir.x) * (dist / 4), dist * .05f, RotateMode.FastBeyond360).SetEase(Ease.InCubic);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -34,12 +34,13 @@ public class Ball : MonoBehaviour
             ControllableObjects.controllableObjects.Remove(transform);
 
             rb.DOKill();
-            ObjectPooler.Instance.SpawnFromPool("Ball_Death", transform.position, Quaternion.identity);
+            GameObject effect = ObjectPooler.Instance.SpawnFromPool("Ball_Death", transform.position, Quaternion.identity);
+            effect.GetComponent<ParticleSystem>().Play();
             Destroy(gameObject);
 
             GameManager.Instance.CheckIfLevelFailed();
         }
-        // collectable
+        // collectables
         if (other.CompareTag(TagEnums.Coin.ToString())) 
         {
             other.tag = TagEnums.Untagged.ToString();

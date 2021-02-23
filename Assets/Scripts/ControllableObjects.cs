@@ -27,6 +27,8 @@ public class ControllableObjects : SingletonBehaviour<ControllableObjects>
         {
             GameManager.Instance.CanPlay = false;
 
+            GameManager.Instance.Moves++;
+
             float dist = 0;
             if (dir == Vector3.right || dir == Vector3.left)
                 dist = (hit.collider.transform.position - rb.position).x * dir.x;
@@ -35,12 +37,15 @@ public class ControllableObjects : SingletonBehaviour<ControllableObjects>
 
             rb.GetComponent<Ball>()?.Roll(dir, dist); // for ball's rotation
 
-            rb.DOMove(new Vector3(hit.collider.transform.position.x, rb.position.y, hit.collider.transform.position.z) + dir * (-1), dist * .04f).SetEase(ease).OnComplete(() =>
+            rb.DOMove(new Vector3(hit.collider.transform.position.x, rb.position.y, hit.collider.transform.position.z) + dir * (-1), dist * .05f).SetEase(ease).OnComplete(() =>
             {
-                GameManager.Instance.CanPlay = true;
+                if (rb.CompareTag(TagEnums.Ball.ToString()))
+                    GameManager.Instance.CanPlay = true;
 
                 if (rb.CompareTag(TagEnums.Ball.ToString()) && hit.collider.CompareTag(TagEnums.Destroyable.ToString()))
                 {
+                    GameObject effect = ObjectPooler.Instance.SpawnFromPool("Destroyable_Death", hit.transform.position, Quaternion.identity);
+                    effect.GetComponent<ParticleSystem>().Play();
                     Destroy(hit.collider.gameObject);
                 }
             });
